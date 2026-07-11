@@ -1,1 +1,235 @@
-https://app.netlify.com/drop
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>TurboMart | فروشگاه ماشین اسپرت</title>
+ <link rel="stylesheet" href="style.css">
+ <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css" rel="stylesheet">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<!-- ===== Navbar ===== -->
+<nav class="navbar">
+ <div class="nav-container">
+ <div class="logo">
+ <i class="fa-solid fa-bolt"></i>
+ <span>Turbo<span class="accent">Mart</span></span>
+ </div>
+ <ul class="nav-links">
+ <li><a href="#home">خانه</a></li>
+ <li><a href="#cars">ماشین‌ها</a></li>
+ <li><a href="#about">درباره ما</a></li>
+ <li><a href="#contact">تماس</a></li>
+ </ul>
+ <div class="nav-actions">
+ <button class="fav-btn" id="favBtn">
+ <i class="fa-solid fa-heart"></i>
+ <span class="fav-count" id="favCount">0</span>
+ </button>
+ <button class="btn-sell"><i class="fa-solid fa-plus"></i> ثبت آگهی</button>
+ </div>
+ <button class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></button>
+ </div>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="home">
+ <div class="hero-bg"></div>
+ <div class="hero-content">
+ <h1 class="hero-title">
+ <span class="line1">احساس</span>
+ <span class="line2">سرعت</span>
+ <span class="line3">رو تجربه کن</span>
+ </h1>
+ <p class="hero-subtitle">بهترین ماشین‌های اسپرت و لوکس، منتظر توئن</p>
+ <div class="hero-buttons">
+ <button class="btn-primary" onclick="scrollToCars()">
+ <i class="fa-solid fa-car"></i> مشاهده ماشین‌ها
+ </button>
+ <button class="btn-ghost">
+ <i class="fa-solid fa-play"></i> تور مجازی
+ </button>
+ </div>
+ <div class="hero-stats">
+ <div class="stat">
+ <h3 data-target="250" class="counter">0</h3>
+ <p>ماشین موجود</p>
+ </div>
+ <div class="stat">
+ <h3 data-target="1800" class="counter">0</h3>
+ <p>مشتری راضی</p>
+ </div>
+ <div class="stat">
+ <h3 data-target="15" class="counter">0</h3>
+ <p>سال تجربه</p>
+ </div>
+ </div>
+ </div>
+ <div class="speed-lines">
+ <div class="line"></div>
+ <div class="line"></div>
+ <div class="line"></div>
+ </div>
+</section>
+
+<!-- ===== Search & Filter ===== -->
+<section class="filter-section" id="cars">
+ <div class="container">
+ <div class="section-header">
+ <h2 class="section-title">ماشین‌های <span class="accent">اسپرت</span></h2>
+ <p class="section-desc">فیلتر کن، انتخاب کن، بخر!</p>
+ </div>
+
+ <div class="filter-bar">
+ <div class="filter-group">
+ <label><i class="fa-solid fa-car-side"></i> برند</label>
+ <select id="brandFilter">
+ <option value="all">همه برندها</option>
+ <option value="ferrari">فراری</option>
+ <option value="lamborghini">لامبورگینی</option>
+ <option value="porsche">پورشه</option>
+ <option value="bmw">بی‌ام‌و</option>
+ <option value="mercedes">مرسدس</option>
+ <option value="audi">آئودی</option>
+ </select>
+ </div>
+ <div class="filter-group">
+ <label><i class="fa-solid fa-gas-pump"></i> سوخت</label>
+ <select id="fuelFilter">
+ <option value="all">همه</option>
+ <option value="benzin">بنزین</option>
+ <option value="hybrid">هایبرید</option>
+ <option value="electric">برقی</option>
+ </select>
+ </div>
+ <div class="filter-group">
+ <label><i class="fa-solid fa-tag"></i> قیمت تا</label>
+ <select id="priceFilter">
+ <option value="all">همه قیمت‌ها</option>
+ <option value="500000">۵۰۰ میلیون</option>
+ <option value="1000000">۱ میلیارد</option>
+ <option value="2000000">۲ میلیارد</option>
+ <option value="5000000">۵ میلیارد</option>
+ </select>
+ </div>
+ <div class="filter-group">
+ <label><i class="fa-solid fa-magnifying-glass"></i> جستجو</label>
+ <input type="text" id="searchInput" placeholder="نام ماشین...">
+ </div>
+ <button class="btn-reset" id="resetFilter">
+ <i class="fa-solid fa-rotate"></i>
+ </button>
+ </div>
+
+ <div class="cars-grid" id="carsGrid">
+ <!-- Car cards injected by JS -->
+ </div>
+
+ <div class="no-result" id="noResult" style="display:none;">
+ <i class="fa-solid fa-car-burst"></i>
+ <p>ماشینی با این مشخصات پیدا نشد!</p>
+ </div>
+ </div>
+</section>
+
+<!-- ===== Detail Modal ===== -->
+<div class="modal-overlay" id="modalOverlay">
+ <div class="modal" id="carModal">
+ <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+ <div class="modal-body" id="modalBody"></div>
+ </div>
+</div>
+
+<!-- ===== About ===== -->
+<section class="about" id="about">
+ <div class="container">
+ <div class="section-header">
+ <h2 class="section-title">چرا <span class="accent">TurboMart</span>؟</h2>
+ </div>
+ <div class="features">
+ <div class="feature-card">
+ <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+ <h3>تضمین اصالت</h3>
+ <p>همه ماشین‌ها توسط کارشناسان ما بررسی می‌شن</p>
+ </div>
+ <div class="feature-card">
+ <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
+ <h3>تحویل سریع</h3>
+ <p>تحویل ماشین در کمتر از ۴۸ ساعت</p>
+ </div>
+ <div class="feature-card">
+ <div class="feature-icon"><i class="fa-solid fa-credit-card"></i></div>
+ <h3>فинанسینگ آسان</h3>
+ <p>اقساط منعطف و شرایط ویژه</p>
+ </div>
+ <div class="feature-card">
+ <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
+ <h3>پشتیبانی ۲۴/۷</h3>
+ <p>هر زمان نیاز داشتی کنارتیم</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- ===== Contact / CTA ===== -->
+<section class="cta-section" id="contact">
+ <div class="container">
+ <div class="cta-box">
+ <h2>آماده‌ای ماشین رویاهات رو رانندگی کنی؟</h2>
+ <p>همین حالا با ما تماس بگیر</p>
+ <div class="cta-buttons">
+ <button class="btn-primary"><i class="fa-solid fa-phone"></i> ۰۲۱-۱۲۳۴۵۶۷۸</button>
+ <button class="btn-ghost"><i class="fa-brands fa-whatsapp"></i> واتساپ</button>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+ <div class="container">
+ <div class="footer-grid">
+ <div class="footer-col">
+ <div class="logo"><i class="fa-solid fa-bolt"></i> Turbo<span class="accent">Mart</span></div>
+ <p>فروشگاه آنلاین ماشین‌های اسپرت و لوکس</p>
+ <div class="socials">
+ <a href="#"><i class="fa-brands fa-instagram"></i></a>
+ <a href="#"><i class="fa-brands fa-telegram"></i></a>
+ <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+ <a href="#"><i class="fa-brands fa-youtube"></i></a>
+ </div>
+ </div>
+ <div class="footer-col">
+ <h4>دسترسی سریع</h4>
+ <a href="#home">خانه</a>
+ <a href="#cars">ماشین‌ها</a>
+ <a href="#about">درباره ما</a>
+ <a href="#contact">تماس</a>
+ </div>
+ <div class="footer-col">
+ <h4>برندها</h4>
+ <a href="#">فراری</a>
+ <a href="#">لامبورگینی</a>
+ <a href="#">پورشه</a>
+ <a href="#">بی‌ام‌و</a>
+ </div>
+ <div class="footer-col">
+ <h4>خبرنامه</h4>
+ <p>جدیدترین ماشین‌ها رو در ایمیلت بگیر</p>
+ <div class="newsletter">
+ <input type="email" placeholder="ایمیل شما">
+ <button><i class="fa-solid fa-paper-plane"></i></button>
+ </div>
+ </div>
+ </div>
+ <div class="footer-bottom">
+ <p>© ۲۰۲۶ TurboMart - تمام حقوق محفوظ است</p>
+ </div>
+ </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
